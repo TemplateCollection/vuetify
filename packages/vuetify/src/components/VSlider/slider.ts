@@ -3,6 +3,7 @@
 import { useRtl } from '@/composables/rtl'
 import { makeRoundedProps } from '@/composables/rounded'
 import { makeElevationProps } from '@/composables/elevation'
+import { makeThemeProps, useTheme } from '@/composables/theme'
 
 // Utilities
 import { computed, provide, ref, toRef } from 'vue'
@@ -54,6 +55,7 @@ type SliderProvide = {
   hasLabels: Ref<boolean>
   isReversed: Ref<boolean>
   horizontalDirection: Ref<'ltr' | 'rtl'>
+  themeClasses: Ref<string | undefined>
 }
 
 export const VSliderSymbol: InjectionKey<SliderProvide> = Symbol.for('vuetify:v-slider')
@@ -133,6 +135,7 @@ export const makeSliderProps = propsFactory({
   ...makeElevationProps({
     elevation: 2,
   }),
+  ...makeThemeProps(),
 }, 'slider')
 
 type SliderProps = ExtractPropTypes<ReturnType<typeof makeSliderProps>>
@@ -309,7 +312,10 @@ export const useSlider = ({
 
   const hasLabels = computed(() => parsedTicks.value.some(({ label }) => !!label))
 
+  const { themeClasses } = useTheme(props)
+
   const data: SliderProvide = {
+    themeClasses,
     color: toRef(props, 'color'),
     decimals,
     disabled,
@@ -350,4 +356,18 @@ export const useSlider = ({
   provide(VSliderSymbol, data)
 
   return data
+}
+
+export const useFocus = () => {
+  const isFocused = ref(false)
+
+  function focus () {
+    isFocused.value = true
+  }
+
+  function blur () {
+    isFocused.value = false
+  }
+
+  return { isFocused, focus, blur }
 }

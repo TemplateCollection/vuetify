@@ -24,6 +24,11 @@ export function filterInputAttrs (attrs: Record<string, unknown>) {
 }
 
 export const makeVInputProps = propsFactory({
+  direction: {
+    type: String as PropType<'horizontal' | 'vertical'>,
+    default: 'horizontal',
+    validator: (v: any) => ['horizontal', 'vertical'].includes(v),
+  },
   appendIcon: String,
   prependIcon: String,
   focused: Boolean,
@@ -50,15 +55,12 @@ export const VInput = defineComponent({
     'update:active': (v: Boolean) => true,
   },
 
-  setup (props, { slots, emit }) {
-    const isActive = useProxiedModel(props, 'active')
+  setup (props, { attrs, slots, emit }) {
     const isFocused = useProxiedModel(props, 'focused')
     const { densityClasses } = useDensity(props, 'v-input')
 
     const uid = getUid()
-    const id = computed(() => props.id || `input-${uid}`)
-
-    watchEffect(() => isActive.value = isFocused.value || props.dirty)
+    const id = computed(() => attrs.id ?? `input-${uid}`)
 
     return () => {
       const hasPrepend = (slots.prepend || props.prependIcon)
@@ -77,9 +79,6 @@ export const VInput = defineComponent({
         <div class={[
           'v-input',
           {
-            'v-input--active': isActive.value,
-            'v-input--dirty': props.dirty,
-            'v-input--disabled': props.disabled,
             'v-input--focused': isFocused.value,
           },
           `v-input--${props.direction}`,
@@ -101,12 +100,12 @@ export const VInput = defineComponent({
 
           <div class="v-input__control">
             { slots.default?.({
-              id: id.value,
-              isActive: isActive.value,
-              isFocused: isFocused.value,
-              isDirty: props.dirty,
-              focus: () => isFocused.value = true,
-              blur: () => isFocused.value = false,
+              // id: id.value,
+              // isActive: isActive.value,
+              // isFocused: isFocused.value,
+              // isDirty: props.dirty,
+              // focus: () => isFocused.value = true,
+              // blur: () => isFocused.value = false,
             }) }
           </div>
 

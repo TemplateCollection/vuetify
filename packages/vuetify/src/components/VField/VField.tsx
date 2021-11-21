@@ -243,9 +243,6 @@ export const VField = genericComponent<new <T>() => {
           focused={ isFocused.value }
           messages={ props.errorMessages?.length ? props.errorMessages : errorMessages.value }
           { ...inputProps }
-          active={ isActive.value }
-          disabled={ props.disabled }
-          dirty={ props.dirty }
           { ...attrs }
           v-slots={{
             prepend: slots.prepend ? () => slots.prepend?.(slotProps.value) : undefined,

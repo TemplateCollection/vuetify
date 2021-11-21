@@ -2,6 +2,7 @@
 @forward './variables'
 @use 'sass:map'
 @use 'sass:selector'
+@use 'sass:math'
 @use '../../styles/settings'
 @use '../../styles/tools'
 @use './variables' as *
@@ -39,8 +40,8 @@
   .v-input__control
     min-height: $slider-vertical-min-height
 
-.v-slider.v-input--disabled
+.v-slider.v-slider--disabled
   pointer-events: none
 
 .v-slider--has-labels .v-input__control
-  margin-bottom: #{$slider-tick-label-margin-bottom / 2}
+  margin-bottom: math.div($slider-tick-label-margin-bottom, 2)

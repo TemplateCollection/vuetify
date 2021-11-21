@@ -114,15 +114,16 @@
 /* region AFFIXES */
 .v-field__prepend-inner,
 .v-field__append-inner,
-.v-field__clearable
+.v-field__clearable,
+.v-field .v-input__prepend,
+.v-field .v-input__append
   align-items: center
   display: flex
 
 .v-field__prepend-inner,
-.v-field__append-inner
-  .v-input--focused &
-    opacity: 1
-
+.v-field__append-inner,
+.v-input__prepend,
+.v-input__append
   .v-field--variant-plain &,
   .v-field--variant-underlined &
     $root: &
@@ -146,8 +147,8 @@
   transition: $field-transition-timing
   transition-property: opacity, transform, width
 
-  .v-input--focused &,
-  .v-field__control:hover &
+  .v-field--focused &,
+  .v-field__control:hover &,
   .v-field--persistent-clear &
     opacity: 1
 
@@ -173,11 +174,13 @@
   margin-inline-start: var(--v-field-padding-before)
   margin-inline-end: var(--v-field-padding-after)
 
-  .v-input--active &
+  .v-field--active &
     visibility: hidden
 
-  .v-field--error &,
-  .v-input--focused &
+  .v-field--error &
+    opacity: 1
+
+  .v-field--focused &
     opacity: 1
 
   .v-field--variant-plain &,
@@ -195,7 +198,7 @@
     visibility: hidden
     max-width: 100%
 
-    .v-field.v-input--active &
+    .v-field.v-field--active &
       visibility: visible
 
     .v-field--variant-contained &,
@@ -236,10 +239,10 @@
   .v-field__control:hover &
     --v-field-border-opacity: var(--v-high-emphasis-opacity)
 
-  .v-field.v-input--focused &
+  .v-field.v-field--focused &
     --v-field-border-opacity: 1
 
-  .v-field--variant-outlined.v-input--focused &
+  .v-field--variant-outlined.v-field--focused &
     --v-field-border-width: #{$field-focused-border-width}
 
   .v-field--variant-filled &,
@@ -261,7 +264,7 @@
       transition: transform $field-transition-timing
       @include tools.absolute()
 
-      @at-root #{selector.append('.v-input--focused', &)}
+      @at-root #{selector.append('.v-field--focused', &)}
         transform: scaleX(1)
 
   .v-field--variant-outlined &
@@ -306,7 +309,7 @@
         bottom: 0
         border-width: 0 0 var(--v-field-border-width)
 
-      @at-root #{selector.append('.v-input--active', &)}
+      @at-root #{selector.append('.v-field--active', &)}
         &::before
           opacity: 0
 
@@ -356,7 +359,7 @@
   .v-field__control:hover .v-field__overlay
     opacity: calc(#{$field-overlay-filled-opacity + map.get(settings.$states, 'hover')} * var(--v-theme-overlay-multiplier))
 
-  &.v-field.v-input--focused .v-field__overlay
+  &.v-field.v-field--focused .v-field__overlay
     opacity: calc(#{$field-overlay-filled-opacity + map.get(settings.$states, 'focus')} * var(--v-theme-overlay-multiplier))
 
 /* endregion */
@@ -394,7 +397,7 @@
     @include tools.rtl()
       text-align: left
 
-.v-field.v-input--disabled
+.v-field--disabled
   pointer-events: none
 
   input

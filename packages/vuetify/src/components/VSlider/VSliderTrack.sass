@@ -117,7 +117,7 @@
     height: 100%
     display: flex
     justify-content: center
-    width: calc(var(--v-slider-track-size, $slider-track-width) + 2px)
+    width: calc(var(--v-slider-track-size) + 2px)
 
     &__background
       width: var(--v-slider-track-size)
@@ -143,7 +143,7 @@
       transform: translateY(-50%)
 
 // Modifiers
-.v-slider-track__ticks--always-show, .v-input--focused
+.v-slider-track__ticks--always-show, .v-slider--focused
   .v-slider-track__tick
     opacity: 1
 
